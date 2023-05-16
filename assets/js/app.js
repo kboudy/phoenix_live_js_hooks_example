@@ -27,14 +27,14 @@ let Hooks = {};
 
 Hooks.Chart = {
   mounted() {
-    new chartjs(this.el, {
+    this.chartjs = new chartjs(this.el, {
       type: "bar",
       data: {
-        labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+        labels: ["x", "y"],
         datasets: [
           {
-            label: "# of Votes",
-            data: [12, 19, 3, 5, 2, 3],
+            label: "Clicked coords",
+            data: [0, 0],
             borderWidth: 1,
           },
         ],
@@ -50,10 +50,15 @@ Hooks.Chart = {
         },
       },
     });
+
+    this.handleEvent("set-chart-data", (coords) => {
+      this.chartjs.data.datasets[0].data = [coords.x, coords.y];
+      this.chartjs.update();
+    });
   },
 
   destroyed() {
-    // this.chartjs.destroy();
+    this.chartjs.destroy();
   },
 };
 

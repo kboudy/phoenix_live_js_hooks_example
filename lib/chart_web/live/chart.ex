@@ -25,7 +25,10 @@ defmodule ChartWeb.ChartLive.Index do
   end
 
   def handle_event("chart-clicked", coords, socket) do
-    socket = assign(socket, clicked_coords: coords)
+    socket =
+      socket
+      |> assign(:clicked_coords, coords)
+      |> push_event("set-chart-data", coords)
 
     {:noreply, socket}
   end
